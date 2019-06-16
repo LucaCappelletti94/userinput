@@ -24,7 +24,7 @@ def userinput(
     maximum_attempts:int=None,
     sanitizer:Union[Callable, str]=None,
     cache:bool=True,
-    cache_path:str=".userinput")->str:
+    cache_path:str=".userinput.json")->str:
     defaults = {}
     if cache and os.path.exists(cache_path):
         with open(cache_path, "r") as f:
@@ -53,7 +53,7 @@ def userinput(
             if cache:
                 with open(cache_path, "w") as f:
                     defaults[name] = value
-                    json.dump(defaults, f)
+                    json.dump(defaults, f, indent=4)
             return value if sanitizer is None else sanitizer(value)
         attempts+=1
         print("Given value {value} is not valid.".format(value=value))

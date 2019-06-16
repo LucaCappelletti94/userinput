@@ -5,7 +5,7 @@ from time import sleep
 def start(function:Callable):
     def wrapper(*args, **kwargs):
         try:
-            for i in reversed(range(5)):
+            for i in reversed(range(10)):
                 print("Please type CTRL+C to start within {i} seconds...".format(i=i))
                 sleep(1)
                 clear()

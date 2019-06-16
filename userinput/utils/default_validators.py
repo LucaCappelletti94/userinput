@@ -14,8 +14,8 @@ default_validators = {
     "email":validate_email,
     "version_code":validate_version_code,
     "url":url,
-    "integer":lambda x: isinstance(x, int),
-    "positive_integer":lambda x: isinstance(x, int) and x>=0,
+    "integer":lambda x: str(x).isdigit(),
+    "positive_integer":lambda x: str(x).isdigit() and int(x)>=0,
     "non_empty":lambda x: isinstance(x, str) and len(x)>0,
     "hostname":hostname
 }
