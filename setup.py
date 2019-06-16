@@ -63,7 +63,8 @@ setup(
     install_requires=[
         "validators",
         "validate_version_code",
-        "validate_email"
+        "validate_email",
+        "ipython"
     ],
     extras_require=extras,
 )
