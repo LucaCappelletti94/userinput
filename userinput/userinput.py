@@ -2,7 +2,7 @@ from typing import Callable, Union, List
 import json
 import os
 from inspect import isfunction
-from .utils import default_validators, closest
+from .utils import default_validators, closest, default_sanitizers
 
 def normalize_validators(validator:str)->List[Callable]:
     if validator not in default_validators:
@@ -22,7 +22,7 @@ def userinput(
     always_use_default:bool=False,
     validator:Union[Callable, List[Callable], List[Union[Callable, str]], str, List[str]]=None,
     maximum_attempts:int=None,
-    sanitizer:Callable=None,
+    sanitizer:Union[Callable, str]=None,
     cache:bool=True,
     cache_path:str=".userinput")->str:
     defaults = {}
@@ -34,6 +34,8 @@ def userinput(
         validators = [validator]
     else:
         validators = []
+    if isinstance(sanitizer, str):
+        sanitizer = default_sanitizers.get(sanitizer, None)
     validators = [
         normalize_validators(validator) if isinstance(validator, str) else validator for validator in validators
     ]
