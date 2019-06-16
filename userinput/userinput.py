@@ -17,17 +17,19 @@ def normalize_validators(validator:str)->List[Callable]:
 
 def userinput(
     name:str, 
-    label:str="Please insert {name}: ",
+    label:str="Please insert {name}",
     default=None,
+    always_use_default:bool=False,
     validator:Union[Callable, List[Callable], List[Union[Callable, str]], str, List[str]]=None,
     maximum_attempts:int=None,
+    sanitizer:Callable=None,
     cache:bool=True,
     cache_path:str=".userinput")->str:
     defaults = {}
-    if default is None and cache and os.path.exists(cache_path):
+    if cache and os.path.exists(cache_path):
         with open(cache_path, "r") as f:
             defaults = json.load(f)
-            default = defaults.get(name, None)
+            default = defaults.get(name, default)
     if isinstance(validator, str) or isfunction(validator):
         validators = [validator]
     else:
@@ -37,9 +39,12 @@ def userinput(
     ]
     attempts = 0
     while maximum_attempts is None or attempts<maximum_attempts:
-        value = input(label.format(
-            name=name if default is None else "{name} [{default}]".format(name=name, default=default)
-        )).strip()
+        value = None
+        if not always_use_default:
+            value = input("{label}{default}: ".format(
+                label=label.format(name=name),
+                default="" if default is None else " [{default}]".format(default=default)
+            )).strip()
         if not value:
             value = default
         if not validators or all([v(value) for v in validators]):
@@ -47,6 +52,6 @@ def userinput(
                 with open(cache_path, "w") as f:
                     defaults[name] = value
                     json.dump(defaults, f)
-            return value
+            return value if sanitizer is None else sanitizer(value)
         attempts+=1
         print("Given value {value} is not valid.".format(value=value))
