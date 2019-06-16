@@ -1,4 +1,4 @@
-from userinput import userinput
+from userinput import userinput, set_validator
 import pytest
 
 
@@ -13,6 +13,12 @@ def test_input(monkeypatch):
     assert url == userinput("url", default=url, validator=["url"])
     assert url == userinput("url", default=url, validator=lambda x: True)
     assert url == userinput("url", default=url, validator=[lambda x: True])
+    assert url == userinput("url", default=url, validator=set_validator([
+        url
+    ]))
+    assert userinput("url", default=url, maximum_attempts=3, validator=set_validator([
+        "google.com"
+    ])) is None
     with pytest.raises(ValueError):
         userinput("url", default=url, validator="urls")
     with pytest.raises(ValueError):

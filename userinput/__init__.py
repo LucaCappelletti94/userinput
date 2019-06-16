@@ -1,4 +1,4 @@
 from .userinput import userinput
-from .utils import clear, start
+from .utils import clear, start, set_validator
 
-__all__ = ["userinput", "clear", "start"]
+__all__ = ["userinput", "clear", "start", "set_validator"]
