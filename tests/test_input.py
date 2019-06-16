@@ -15,3 +15,5 @@ def test_input(monkeypatch):
     assert url == userinput("url", default=url, validator=[lambda x: True])
     with pytest.raises(ValueError):
         userinput("url", default=url, validator="urls")
+    with pytest.raises(ValueError):
+        userinput("url", default=url, validator="urlsqwertyuioplkjdswegwkuhdgqljhwdfg")
