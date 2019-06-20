@@ -10,6 +10,13 @@ def hostname(server: str)->bool:
     except socket.gaierror:
         return False
 
+def ip(address: str)->bool:
+    try:
+        socket.inet_aton(address)
+        return True
+    except socket.error:
+        return False
+
 default_validators = {
     "email":validate_email,
     "version_code":validate_version_code,
@@ -17,5 +24,6 @@ default_validators = {
     "integer":lambda x: str(x).isdigit(),
     "positive_integer":lambda x: str(x).isdigit() and int(x)>=0,
     "non_empty":lambda x: isinstance(x, str) and len(x)>0,
-    "hostname":hostname
+    "hostname":hostname,
+    "ip":ip
 }
