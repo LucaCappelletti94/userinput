@@ -12,7 +12,7 @@ def hostname(server: str)->bool:
         return False
 
 def ip(address: str)->bool:
-    if not IP(address):
+    if address is None or not IP(address):
         return False
     try:
         socket.inet_aton(address)
