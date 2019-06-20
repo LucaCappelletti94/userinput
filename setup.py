@@ -64,7 +64,8 @@ setup(
         "validators",
         "validate_version_code",
         "validate_email",
-        "ipython"
+        "ipython",
+        "IPy"
     ],
     extras_require=extras,
 )

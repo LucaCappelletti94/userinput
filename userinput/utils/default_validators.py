@@ -2,6 +2,7 @@ from validate_email import validate_email
 from validate_version_code import validate_version_code
 from validators import url
 import socket
+from IPy import IP
 
 def hostname(server: str)->bool:
     try:
@@ -11,6 +12,8 @@ def hostname(server: str)->bool:
         return False
 
 def ip(address: str)->bool:
+    if not IP(address):
+        return False
     try:
         socket.inet_aton(address)
         return True
