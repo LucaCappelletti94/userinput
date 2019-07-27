@@ -23,6 +23,7 @@ def ip(address: str)->bool:
 default_validators = {
     "email":validate_email,
     "version_code":validate_version_code,
+    "human_bool": lambda x: x.lower() in ["yes", "y", "true", "no", "n", "false"],
     "url":url,
     "integer":lambda x: str(x).isdigit(),
     "positive_integer":lambda x: str(x).isdigit() and int(x)>=0,
