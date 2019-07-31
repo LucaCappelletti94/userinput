@@ -25,6 +25,17 @@ def userinput(
     sanitizer:Union[Callable, str]=None,
     cache:bool=True,
     cache_path:str=".userinput.json")->str:
+    """Default handler for uniform user experience.
+        name:str, name of the expected input, used for storing.
+        label:str="Please insert {name}", label shown to the user.
+        default=None, default value to use.
+        always_use_default:bool=False, whetever to always use the default, bypassing the user request.
+        validator:Union[Callable, List[Callable], List[Union[Callable, str]], str, List[str]]=None, single or list of validators for the user input.
+        maximum_attempts:int=None, maximum available attempts for a given input.
+        sanitizer:Union[Callable, List[Callable], str]=None, function or string used to sanitize input.
+        cache:bool=True, whetever to load and store input values.
+        cache_path:str=".userinput.json", default path to store and load cache.
+    """
     defaults = {}
     if cache and os.path.exists(cache_path):
         with open(cache_path, "r") as f:
