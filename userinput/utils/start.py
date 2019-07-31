@@ -2,16 +2,17 @@ from .clear import clear
 from typing import Callable
 from time import sleep
 
-def start(function:Callable):
-    def wrapper(*args, **kwargs):
-        try:
-            for i in reversed(range(10)):
-                print("Please type CTRL+C to start within {i} seconds...".format(i=i))
-                sleep(1)
-                clear()
-            print("Skipping execution.")
-        except KeyboardInterrupt:
-            print("Starting!")
-            function(*args, **kwargs)
-    wrapper.__name__ = function.__name__
-    return wrapper
+def can_start(message:str="Type CTRL+C to start [{i} seconds remaining]", time:int=10)->bool:
+    """Return boolean representing if user wants to start task.
+        message:str="Type CTRL+C to start [{i} seconds remaining]", message to show to the user.
+        time:int=10, the time to be waited for.
+    """
+    try:
+        clear()
+        for i in reversed(range(time)):
+            print(message.format(i=i))
+            sleep(1)
+            clear()
+        return False
+    except KeyboardInterrupt:
+        return True    

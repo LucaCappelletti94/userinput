@@ -1,8 +1,7 @@
-from userinput import start
+from userinput import can_start
 
-@start
 def my_test():
-    pass
+    assert not can_start(time=1)
 
-def test_start():
+def test_can_start():
     my_test()
