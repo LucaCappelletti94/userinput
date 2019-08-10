@@ -8,10 +8,10 @@ def test_delete_cache(monkeypatch):
     key = "user_input"
     with open(path, "w") as f:
         json.dump({
-            "user_input": "yes"
+            key: "yes"
         }, f)
     assert userinput(
-        "user_input",
+        key,
         validator="human_bool",
         sanitizer="human_bool",
         always_use_default=True,
