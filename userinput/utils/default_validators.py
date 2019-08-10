@@ -16,7 +16,7 @@ def ip(address: str)->bool:
     if address is None or not IP(address):
         return False
     try:
-        socket.inet_aton(address)
+        socket.gethostbyaddr(address)
         return True
     except socket.error:
         return False
