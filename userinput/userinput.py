@@ -2,7 +2,7 @@ from typing import Callable, Union, List
 import json
 import os
 from inspect import isfunction
-from getpass import getpass
+import getpass
 from .utils import default_validators, closest, default_sanitizers, clear
 
 def normalize_validators(validator:str)->List[Callable]:
@@ -59,7 +59,7 @@ def userinput(
         normalize_validators(validator) if isinstance(validator, str) else validator for validator in validators
     ]
     attempts = 0
-    input_function = getpass if hidden else input 
+    input_function = getpass.getpass if hidden else input 
     while maximum_attempts is None or attempts<maximum_attempts:
         value = None
         if not always_use_default:
