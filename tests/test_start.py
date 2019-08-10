@@ -5,3 +5,4 @@ def my_test():
 
 def test_can_start():
     my_test()
+    

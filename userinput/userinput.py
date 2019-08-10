@@ -16,6 +16,10 @@ def normalize_validators(validator:str)->List[Callable]:
         ))
     return default_validators.get(validator)
 
+
+def _is_input_valid(value:str, validators:List)->bool:
+    return not validators or all([v(value) for v in validators])
+
 def userinput(
     name:str, 
     label:str="Please insert {name}",
@@ -62,14 +66,14 @@ def userinput(
     input_function = getpass.getpass if hidden else input 
     while maximum_attempts is None or attempts<maximum_attempts:
         value = None
-        if not always_use_default:
+        if not always_use_default or not _is_input_valid(default, validators):
             value = input_function("{label}{default}: ".format(
                 label=label.format(name=name),
                 default="" if default is None else " [{default}]".format(default=default)
             )).strip()
         if not value:
             value = default
-        if not validators or all([v(value) for v in validators]):
+        if _is_input_valid(value, validators):
             if cache and not delete_cache:
                 with open(cache_path, "w") as f:
                     defaults[name] = value
