@@ -19,6 +19,19 @@ def normalize_validators(validator: str) -> List[Callable]:
     return default_validators.get(validator)
 
 
+def normalize_sanitizers(sanitizer: str) -> List[Callable]:
+    if sanitizer not in default_sanitizers:
+        candidate = closest(sanitizer, default_sanitizers.keys())
+        if candidate is None:
+            raise ValueError("Given sanitizer callback {sanitizer} is not available.".format(
+                sanitizer=sanitizer))
+        raise ValueError("Given sanitizer callback {sanitizer} is invalid, did you mean {candidate}?.".format(
+            sanitizer=sanitizer,
+            candidate=candidate
+        ))
+    return default_sanitizers.get(sanitizer)
+
+
 def _is_input_valid(value: str, validators: List) -> bool:
     return not validators or all([v(value) for v in validators])
 
@@ -29,9 +42,9 @@ def userinput(
     default=None,
     always_use_default: bool = False,
     hidden: bool = False,
-    validator: Union[Callable, List[Callable], List[Union[Callable, str]], str, List[str]] = None,
+    validator: Union[Callable, List[Union[Callable, str]], str] = None,
     maximum_attempts: int = None,
-    sanitizer: Union[Callable, str] = None,
+    sanitizer: Union[Callable, List[Union[Callable, str]], str] = None,
     cache: bool = True,
     cache_path: str = ".userinput.json",
     delete_cache: bool = False,
@@ -43,9 +56,9 @@ def userinput(
         default=None, default value to use.
         hidden:bool=False, whetever to display or not user input.
         always_use_default:bool=False, whetever to always use the default, bypassing the user request.
-        validator:Union[Callable, List[Callable], List[Union[Callable, str]], str, List[str]]=None, single or list of validators for the user input.
+        validator:Union[Callable, List[Union[Callable, str]], str]=None, single or list of validators for the user input.
         maximum_attempts:int=None, maximum available attempts for a given input.
-        sanitizer:Union[Callable, List[Callable], str]=None, function or string used to sanitize input.
+        sanitizer:Union[Callable, List[Union[Callable, str]], str]=None, function or string used to sanitize input.
         cache:bool=True, whetever to load and store input values.
         cache_path:str=".userinput.json", default path to store and load cache.
         delete_cache:bool=False, whetever to delete cache after reading it.
@@ -60,10 +73,15 @@ def userinput(
         validators = [validator]
     else:
         validators = []
-    if isinstance(sanitizer, str):
-        sanitizer = default_sanitizers.get(sanitizer, None)
+    if isinstance(sanitizer, str) or isfunction(sanitizer):
+        sanitizers = [sanitizer]
+    else:
+        sanitizers = []
     validators = [
         normalize_validators(validator) if isinstance(validator, str) else validator for validator in validators
+    ]
+    sanitizers = [
+        normalize_sanitizers(sanitizer) if isinstance(sanitizer, str) else sanitizer for sanitizer in sanitizers
     ]
     attempts = 0
     input_function = getpass.getpass if hidden else input
@@ -86,6 +104,9 @@ def userinput(
                 os.remove(cache_path)
             if auto_clear:
                 clear()
-            return value if sanitizer is None else sanitizer(value)
+            if sanitizers is not None:
+                for sanitizer in sanitizers:
+                    value = sanitizer(value)
+            return value
         attempts += 1
         print("Given value {value} is not valid.".format(value=value))
