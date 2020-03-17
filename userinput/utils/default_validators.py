@@ -24,7 +24,7 @@ def ip(address: str)->bool:
 default_validators = {
     "email": lambda x: isinstance(x, str) and validate_email(x),
     "version_code":validate_version_code,
-    "human_bool": set_validator(["yes", "y", "true", "no", "n", "false"]),
+    "human_bool": set_validator(["yes", "y", "true", "si", "no", "n", "false"]),
     "url":url,
     "integer":lambda x: str(x).isdigit(),
     "positive_integer":lambda x: str(x).isdigit() and int(x)>=0,

@@ -5,11 +5,13 @@ from inspect import isfunction
 import getpass
 from .utils import default_validators, closest, default_sanitizers, clear
 
-def normalize_validators(validator:str)->List[Callable]:
+
+def normalize_validators(validator: str) -> List[Callable]:
     if validator not in default_validators:
         candidate = closest(validator, default_validators.keys())
         if candidate is None:
-            raise ValueError("Given validator callback {validator} is not available.".format(validator=validator))
+            raise ValueError("Given validator callback {validator} is not available.".format(
+                validator=validator))
         raise ValueError("Given validator callback {validator} is invalid, did you mean {candidate}?.".format(
             validator=validator,
             candidate=candidate
@@ -17,23 +19,24 @@ def normalize_validators(validator:str)->List[Callable]:
     return default_validators.get(validator)
 
 
-def _is_input_valid(value:str, validators:List)->bool:
+def _is_input_valid(value: str, validators: List) -> bool:
     return not validators or all([v(value) for v in validators])
 
+
 def userinput(
-    name:str, 
-    label:str="Please insert {name}",
+    name: str,
+    label: str = "Please insert {name}",
     default=None,
-    always_use_default:bool=False,
-    hidden:bool=False,
-    validator:Union[Callable, List[Callable], List[Union[Callable, str]], str, List[str]]=None,
-    maximum_attempts:int=None,
-    sanitizer:Union[Callable, str]=None,
-    cache:bool=True,
-    cache_path:str=".userinput.json",
-    delete_cache:bool=False,
-    auto_clear:bool=False
-    )->str:
+    always_use_default: bool = False,
+    hidden: bool = False,
+    validator: Union[Callable, List[Callable], List[Union[Callable, str]], str, List[str]] = None,
+    maximum_attempts: int = None,
+    sanitizer: Union[Callable, str] = None,
+    cache: bool = True,
+    cache_path: str = ".userinput.json",
+    delete_cache: bool = False,
+    auto_clear: bool = False
+) -> str:
     """Default handler for uniform user experience.
         name:str, name of the expected input, used for storing.
         label:str="Please insert {name}", label shown to the user.
@@ -63,13 +66,14 @@ def userinput(
         normalize_validators(validator) if isinstance(validator, str) else validator for validator in validators
     ]
     attempts = 0
-    input_function = getpass.getpass if hidden else input 
-    while maximum_attempts is None or attempts<maximum_attempts:
+    input_function = getpass.getpass if hidden else input
+    while maximum_attempts is None or attempts < maximum_attempts:
         value = None
         if not always_use_default or not _is_input_valid(default, validators):
             value = input_function("{label}{default}: ".format(
                 label=label.format(name=name),
-                default="" if default is None else " [{default}]".format(default=default)
+                default="" if default is None else " [{default}]".format(
+                    default=default)
             )).strip()
         if not value:
             value = default
@@ -83,5 +87,5 @@ def userinput(
             if auto_clear:
                 clear()
             return value if sanitizer is None else sanitizer(value)
-        attempts+=1
+        attempts += 1
         print("Given value {value} is not valid.".format(value=value))
