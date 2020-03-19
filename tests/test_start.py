@@ -1,8 +1,16 @@
 from userinput import can_start
+import pytest
+import time
 
-def my_test():
-    assert not can_start(time=1)
+
+def interrupt(seconds):
+    raise KeyboardInterrupt("Test")
+
 
 def test_can_start():
-    my_test()
-    
+    assert not can_start(interval=1)
+
+
+def test_not_can_start(monkeypatch):
+    monkeypatch.setattr(time, 'sleep', interrupt)
+    assert can_start(interval=5)
