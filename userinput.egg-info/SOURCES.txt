@@ -9,6 +9,8 @@ userinput.egg-info/SOURCES.txt
 userinput.egg-info/dependency_links.txt
 userinput.egg-info/requires.txt
 userinput.egg-info/top_level.txt
+userinput/test/__init__.py
+userinput/test/simulate_multiline.py
 userinput/utils/__init__.py
 userinput/utils/clear.py
 userinput/utils/closest.py
