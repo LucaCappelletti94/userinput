@@ -1,6 +1,6 @@
 from typing import List
 
-def levenshteinDistance(s1:str, s2:str):
+def levenshtein_distance(s1:str, s2:str):
     if len(s1) > len(s2):
         s1, s2 = s2, s1
 
@@ -18,7 +18,7 @@ def levenshteinDistance(s1:str, s2:str):
 def closest(word:str, words:List[str], threshold:float=0.5)->str:
     best_score, best_candidate = 1, None
     for candidate in words:
-        score = levenshteinDistance(word, candidate)/max(len(word), len(candidate))
+        score = levenshtein_distance(word, candidate)/max(len(word), len(candidate))
         if score < best_score and score < threshold:
             best_score = score
             best_candidate = candidate

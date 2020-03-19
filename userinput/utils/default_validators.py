@@ -5,14 +5,16 @@ from validators import url
 import socket
 from IPy import IP
 
-def hostname(server: str)->bool:
+
+def hostname(server: str) -> bool:
     try:
         socket.gethostbyname(server)
         return True
     except socket.gaierror:
         return False
 
-def ip(address: str)->bool:
+
+def validate_ip(address: str) -> bool:
     if address is None or not IP(address):
         return False
     try:
@@ -21,14 +23,15 @@ def ip(address: str)->bool:
     except socket.error:
         return False
 
+
 default_validators = {
     "email": lambda x: isinstance(x, str) and validate_email(x),
-    "version_code":validate_version_code,
+    "version_code": validate_version_code,
     "human_bool": set_validator(["yes", "y", "true", "si", "no", "n", "false"]),
-    "url":url,
-    "integer":lambda x: str(x).isdigit(),
-    "positive_integer":lambda x: str(x).isdigit() and int(x)>=0,
-    "non_empty":lambda x: isinstance(x, str) and len(x)>0,
-    "hostname":hostname,
-    "ip":ip
+    "url": url,
+    "integer": lambda x: str(x).isdigit(),
+    "positive_integer": lambda x: str(x).isdigit() and int(x) >= 0,
+    "non_empty": lambda x: isinstance(x, str) and len(x) > 0,
+    "hostname": hostname,
+    "ip": validate_ip
 }
