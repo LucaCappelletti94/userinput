@@ -23,3 +23,5 @@ def test_input(monkeypatch):
         userinput("url", default=url, validator="urls")
     with pytest.raises(ValueError):
         userinput("url", default=url, validator="urlsqwertyuioplkjdswegwkuhdgqljhwdfg")
+    with pytest.raises(ValueError):
+        userinput("url", default=url, sanitizer="urlsqwertyuioplkjdswegwkuhdgqljhwdfg")
