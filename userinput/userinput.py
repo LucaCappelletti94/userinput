@@ -48,7 +48,8 @@ def userinput(
     cache: bool = True,
     cache_path: str = ".userinput.json",
     delete_cache: bool = False,
-    auto_clear: bool = False
+    auto_clear: bool = False,
+    multi_line: bool = False
 ) -> str:
     """Default handler for uniform user experience.
         name:str, name of the expected input, used for storing.
@@ -84,7 +85,15 @@ def userinput(
         normalize_sanitizers(sanitizer) if isinstance(sanitizer, str) else sanitizer for sanitizer in sanitizers
     ]
     attempts = 0
-    input_function = getpass.getpass if hidden else input
+
+    input_function = None
+    if hidden:
+        input_function = getpass.getpass
+    elif multi_line:
+        input_function = lambda x: "\n".join(iter(lambda: input(x), ''))
+    else:
+        input_function = input
+
     while maximum_attempts is None or attempts < maximum_attempts:
         value = None
         if not always_use_default or not _is_input_valid(default, validators):
