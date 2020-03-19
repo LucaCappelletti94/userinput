@@ -105,11 +105,10 @@ def userinput(
         if not value:
             value = default
         if _is_input_valid(value, validators):
-            if cache and not delete_cache:
-                if name not in defaults or value != defaults[name]:
-                    with open(cache_path, "w") as f:
-                        defaults[name] = value
-                        json.dump(defaults, f, indent=4)
+            if cache and not delete_cache and (name not in defaults or value != defaults[name]):
+                with open(cache_path, "w") as f:
+                    defaults[name] = value
+                    json.dump(defaults, f, indent=4)
             if delete_cache:
                 os.remove(cache_path)
             if auto_clear:
