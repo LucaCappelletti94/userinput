@@ -114,9 +114,8 @@ def userinput(
                 os.remove(cache_path)
             if auto_clear:
                 clear()
-            if sanitizers is not None:
-                for sanitizer in sanitizers:
-                    value = sanitizer(value)
+            for sanitizer in sanitizers:
+                value = sanitizer(value)
             return value
         attempts += 1
         print("Given value {value} is not valid.".format(value=value))
