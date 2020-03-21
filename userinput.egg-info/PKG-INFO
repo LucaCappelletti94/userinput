@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: userinput
-Version: 1.0.12
+Version: 1.0.13
 Summary: Simple python package to handle cli user input.
 Home-page: https://github.com/LucaCappelletti94/userinput
 Author: Luca Cappelletti
@@ -10,7 +10,7 @@ Description: userinput
         =========================================================================================
         |travis| |sonar_quality| |sonar_maintainability| |codacy| |code_climate_maintainability| |pip| |downloads|
         
-        Simple python package to handle cli user input.
+        Simple python package to handle CLI user input.
         
         How do I install this package?
         ----------------------------------------------
@@ -23,7 +23,7 @@ Description: userinput
         Tests Coverage
         ----------------------------------------------
         Since some software handling coverages sometimes
-         get slightly different results, here's three of them:
+        get slightly different results, here's three of them:
         
         |coveralls| |sonar_coverage| |code_climate_coverage|
         
