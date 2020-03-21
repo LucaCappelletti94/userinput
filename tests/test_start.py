@@ -1,5 +1,4 @@
 from userinput import can_start
-import pytest
 import time
 
 

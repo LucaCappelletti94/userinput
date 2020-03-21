@@ -1,5 +1,4 @@
 from userinput import userinput
-import pytest
 
 
 def test_input(monkeypatch):

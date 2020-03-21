@@ -1,5 +1,4 @@
 from userinput import userinput
-import pytest
 import json
 import os
 

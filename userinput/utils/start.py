@@ -1,5 +1,4 @@
 from .clear import clear
-from typing import Callable
 import time
 
 def can_start(message:str="Type CTRL+C to start [{i} seconds remaining]", interval:int=10)->bool:
