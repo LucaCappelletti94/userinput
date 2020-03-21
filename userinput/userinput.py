@@ -36,6 +36,10 @@ def _is_input_valid(value: str, validators: List) -> bool:
     return not validators or all([v(value) for v in validators])
 
 
+def multi_line_input(label: str):
+    return "\n".join(iter(lambda: input(label), ''))
+
+
 def userinput(
     name: str,
     label: str = "Please insert {name}",
@@ -43,7 +47,7 @@ def userinput(
     always_use_default: bool = False,
     hidden: bool = False,
     validator: Union[Callable, List[Union[Callable, str]], str] = None,
-    maximum_attempts: int = None,
+    maximum_attempts: int = 100,
     sanitizer: Union[Callable, List[Union[Callable, str]], str] = None,
     cache: bool = True,
     cache_path: str = ".userinput.json",
@@ -52,18 +56,34 @@ def userinput(
     multi_line: bool = False
 ) -> str:
     """Default handler for uniform user experience.
-        name:str, name of the expected input, used for storing.
-        label:str="Please insert {name}", label shown to the user.
-        default=None, default value to use.
-        hidden:bool=False, whetever to display or not user input.
-        always_use_default:bool=False, whetever to always use the default, bypassing the user request.
-        validator:Union[Callable, List[Union[Callable, str]], str]=None, single or list of validators for the user input.
-        maximum_attempts:int=None, maximum available attempts for a given input.
-        sanitizer:Union[Callable, List[Union[Callable, str]], str]=None, function or string used to sanitize input.
-        cache:bool=True, whetever to load and store input values.
-        cache_path:str=".userinput.json", default path to store and load cache.
-        delete_cache:bool=False, whetever to delete cache after reading it.
-        auto_clear:bool=False, whetever to call clear stdout after user input is determined.
+
+    Parameters
+    ----------------------------------------------
+    name:str,
+        Name of the expected input, used for storing.
+    label:str="Please insert {name}",
+        Label shown to the user.
+    default=None,
+        Default value to use.
+    hidden:bool=False,
+        Whetever to display or not user input.
+    always_use_default:bool=False,
+        Whetever to always use the default, bypassing the user request.
+    validator:Union[Callable, List[Union[Callable, str]], str]=None,
+        Single or list of validators for the user input.
+    maximum_attempts:int=100,
+        Maximum available attempts for a given input.
+        By default 100 to avoid deadlocks.
+    sanitizer:Union[Callable, List[Union[Callable, str]], str]=None,
+        Single or list of sanitizers for the user input.
+    cache:bool=True,
+        Whetever to load and store input values.
+    cache_path:str=".userinput.json",
+        Default path to store and load cache.
+    delete_cache:bool=False,
+        Whetever to delete cache after reading it.
+    auto_clear:bool=False,
+        Whetever to call clear stdout after user input is determined.
     """
     defaults = {}
     if cache and os.path.exists(cache_path):
@@ -90,7 +110,7 @@ def userinput(
     if hidden:
         input_function = getpass.getpass
     elif multi_line:
-        input_function = lambda x: "\n".join(iter(lambda: input(x), ''))
+        input_function = multi_line_input
     else:
         input_function = input
 
@@ -117,3 +137,9 @@ def userinput(
             return value
         attempts += 1
         print("Given value {value} is not valid.".format(value=value))
+    raise ValueError(
+        "User attempted to answer query called {name} more than {attempts} times!".format(
+            name=name,
+            attempts=attempts
+        )
+    )

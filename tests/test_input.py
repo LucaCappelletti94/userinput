@@ -7,7 +7,8 @@ def test_input(monkeypatch):
     monkeypatch.setattr('builtins.input', lambda x: url)
     assert url == userinput("url", validator="url")
     monkeypatch.setattr('builtins.input', lambda x: "3456789")
-    assert userinput("url", validator="url", maximum_attempts=3) is None
+    with pytest.raises(ValueError):
+        userinput("url", validator="url", maximum_attempts=3)
     monkeypatch.setattr('builtins.input', lambda x: "")
     assert url == userinput("url", default=url, validator="url")
     assert url == userinput("url", default=url, validator=["url"])
@@ -16,9 +17,10 @@ def test_input(monkeypatch):
     assert url == userinput("url", default=url, validator=set_validator([
         url
     ]))
-    assert userinput("url", default=url, maximum_attempts=3, validator=set_validator([
-        "google.com"
-    ])) is None
+    with pytest.raises(ValueError):
+        userinput("url", default=url, maximum_attempts=3, validator=set_validator([
+            "google.com"
+        ]))
     with pytest.raises(ValueError):
         userinput("url", default=url, validator="urls")
     with pytest.raises(ValueError):
