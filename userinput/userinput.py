@@ -99,8 +99,7 @@ def userinput(
         if not always_use_default or not _is_input_valid(default, validators):
             value = input_function("{label}{default}: ".format(
                 label=label.format(name=name),
-                default="" if default is None else " [{default}]".format(
-                    default=default)
+                default="" if default is None else " [{}]".format(default)
             )).strip()
         if not value:
             value = default
