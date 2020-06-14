@@ -128,7 +128,9 @@ def userinput(
         if not value:
             value = default
         if recoverer is not None and not _is_input_valid(value, validators):
-            value = recoverer(value)
+            recoverered = recoverer(value)
+            if recoverered is not None:
+                value = recoverered
         if _is_input_valid(value, validators):
             if cache and not delete_cache and (name not in defaults or value != defaults[name]):
                 with open(cache_path, "w") as f:
@@ -142,7 +144,7 @@ def userinput(
                 value = sanitizer(value)
             return value
         attempts += 1
-        print("Given value {value} is not valid.".format(value=value))
+        print("Given value '{value}' is not valid.".format(value=value))
     raise ValueError(
         "User attempted to answer query called {name} more than {attempts} times!".format(
             name=name,

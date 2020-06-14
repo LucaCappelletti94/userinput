@@ -1,5 +1,6 @@
 from typing import Iterable, Callable
 
+
 def set_validator(valid_set: Iterable[str]) -> Callable:
     """Return set validator for given iterable of strings.
 

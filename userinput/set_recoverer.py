@@ -17,11 +17,17 @@ def set_recoverer(valid_set: Iterable[str]) -> Callable:
     """
     def wrapper(value: str) -> str:
         candidate = closest(value, valid_set)
-        label = "Given value {value} is not valid, did you mean {candidate}?".format(
+        label = "Given value '{value}' is not valid, did you mean '{candidate}'?".format(
             value=value,
             candidate=candidate
         )
-        if userinput("set_recoverer", label=label, validator="human_bool"):
+        if userinput(
+            "set_recoverer",
+            label=label,
+            validator="human_bool",
+            sanitizer="human_bool",
+            cache=False
+        ):
             return candidate
         return None
     return wrapper
