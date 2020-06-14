@@ -18,12 +18,12 @@ def levenshtein_distance(s1: str, s2: str):
     return distances[-1]
 
 
-def closest(word: str, words: List[str], threshold: float = 0.5) -> str:
+def closest(word: str, words: List[str]) -> str:
     best_score, best_candidate = 1, None
     for candidate in words:
         score = levenshtein_distance(
             word, candidate)/max(len(word), len(candidate))
-        if score < best_score and score < threshold:
+        if score < best_score:
             best_score = score
             best_candidate = candidate
     return best_candidate

@@ -48,6 +48,7 @@ def userinput(
     hidden: bool = False,
     validator: Union[Callable, List[Union[Callable, str]], str] = None,
     maximum_attempts: int = 100,
+    recoverer: Callable = None,
     sanitizer: Union[Callable, List[Union[Callable, str]], str] = None,
     cache: bool = True,
     cache_path: str = ".userinput.json",
@@ -74,6 +75,9 @@ def userinput(
     maximum_attempts:int=100,
         Maximum available attempts for a given input.
         By default 100 to avoid deadlocks.
+    recoverer: Callable, str]=None,
+        Single or list of recoverer to use when the input fails but could be
+        sanitized into something acceptable.
     sanitizer:Union[Callable, List[Union[Callable, str]], str]=None,
         Single or list of sanitizers for the user input.
     cache:bool=True,
@@ -123,6 +127,8 @@ def userinput(
             )).strip()
         if not value:
             value = default
+        if recoverer is not None and not _is_input_valid(value, validators):
+            value = recoverer(value)
         if _is_input_valid(value, validators):
             if cache and not delete_cache and (name not in defaults or value != defaults[name]):
                 with open(cache_path, "w") as f:
