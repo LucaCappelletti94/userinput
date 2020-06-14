@@ -3,6 +3,7 @@ README.rst
 setup.py
 userinput/__init__.py
 userinput/__version__.py
+userinput/set_recoverer.py
 userinput/userinput.py
 userinput.egg-info/PKG-INFO
 userinput.egg-info/SOURCES.txt
