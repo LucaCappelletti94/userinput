@@ -16,13 +16,15 @@ def set_recoverer(valid_set: Iterable[str]) -> Callable:
     Callable for recovering a value from the set.
     """
     def wrapper(value: str) -> str:
+        if value is None:
+            return None
         candidate = closest(value, valid_set)
         label = "Given value '{value}' is not valid, did you mean '{candidate}'?".format(
             value=value,
             candidate=candidate
         )
         if userinput(
-            "set_recoverer",
+            "set_recoverer_{candidate}".format(candidate=candidate),
             label=label,
             validator="human_bool",
             sanitizer="human_bool",
