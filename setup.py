@@ -65,7 +65,8 @@ setup(
         "validate_version_code",
         "validate_email",
         "ipython",
-        "IPy"
+        "IPy",
+        "jaro-winkler"
     ],
     extras_require=extras,
 )
