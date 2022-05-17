@@ -1,6 +1,6 @@
-userinput
+Userinput
 =========================================================================================
-|travis| |sonar_quality| |sonar_maintainability| |codacy| |code_climate_maintainability| |pip| |downloads|
+|pip| |downloads|
 
 Simple python package to handle CLI user input.
 
@@ -11,13 +11,6 @@ As usual, just download it using pip:
 .. code:: shell
 
     pip install userinput
-
-Tests Coverage
-----------------------------------------------
-Since some software handling coverages sometimes
-get slightly different results, here's three of them:
-
-|coveralls| |sonar_coverage| |code_climate_coverage|
 
 
 Available validators
@@ -112,26 +105,6 @@ They will be called in the order you provide.
     )
 
 
-.. |travis| image:: https://travis-ci.org/LucaCappelletti94/userinput.png
-   :target: https://travis-ci.org/LucaCappelletti94/userinput
-   :alt: Travis CI build
-
-.. |sonar_quality| image:: https://sonarcloud.io/api/project_badges/measure?project=LucaCappelletti94_userinput&metric=alert_status
-    :target: https://sonarcloud.io/dashboard/index/LucaCappelletti94_userinput
-    :alt: SonarCloud Quality
-
-.. |sonar_maintainability| image:: https://sonarcloud.io/api/project_badges/measure?project=LucaCappelletti94_userinput&metric=sqale_rating
-    :target: https://sonarcloud.io/dashboard/index/LucaCappelletti94_userinput
-    :alt: SonarCloud Maintainability
-
-.. |sonar_coverage| image:: https://sonarcloud.io/api/project_badges/measure?project=LucaCappelletti94_userinput&metric=coverage
-    :target: https://sonarcloud.io/dashboard/index/LucaCappelletti94_userinput
-    :alt: SonarCloud Coverage
-
-.. |coveralls| image:: https://coveralls.io/repos/github/LucaCappelletti94/userinput/badge.svg?branch=master
-    :target: https://coveralls.io/github/LucaCappelletti94/userinput?branch=master
-    :alt: Coveralls Coverage
-
 .. |pip| image:: https://badge.fury.io/py/userinput.svg
     :target: https://badge.fury.io/py/userinput
     :alt: Pypi project
@@ -139,15 +112,3 @@ They will be called in the order you provide.
 .. |downloads| image:: https://pepy.tech/badge/userinput
     :target: https://pepy.tech/badge/userinput
     :alt: Pypi total project downloads 
-
-.. |codacy| image:: https://api.codacy.com/project/badge/Grade/df1695332ded416d81a9336f0e1b57bf
-    :target: https://www.codacy.com/app/LucaCappelletti94/userinput?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LucaCappelletti94/userinput&amp;utm_campaign=Badge_Grade
-    :alt: Codacy Maintainability
-
-.. |code_climate_maintainability| image:: https://api.codeclimate.com/v1/badges/8fbcc84e7a8d83e3aa2a/maintainability
-    :target: https://codeclimate.com/github/LucaCappelletti94/userinput/maintainability
-    :alt: Maintainability
-
-.. |code_climate_coverage| image:: https://api.codeclimate.com/v1/badges/8fbcc84e7a8d83e3aa2a/test_coverage
-    :target: https://codeclimate.com/github/LucaCappelletti94/userinput/test_coverage
-    :alt: Code Climate Coverate
