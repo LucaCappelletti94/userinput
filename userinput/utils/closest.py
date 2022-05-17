@@ -2,6 +2,10 @@
 from typing import List
 from jaro import jaro_winkler_metric
 
+def normalize(word: str) -> str:
+    """Return provided string normalized to increase likelyhood of matches."""
+    word = word.lower()
+    return word
 
 def get_k_closest(word: str, words: List[str], k: int) -> List[str]:
     """Return the top k words from given list that are closest to provided word.
@@ -20,7 +24,7 @@ def get_k_closest(word: str, words: List[str], k: int) -> List[str]:
         [
             (
                 w,
-                jaro_winkler_metric(w, word)
+                jaro_winkler_metric(normalize(w), normalize(word))
             )
             for w in words
         ],
@@ -49,7 +53,7 @@ def closest(word: str, words: List[str]) -> str:
     """
     best_score, best_candidate = 0, None
     for candidate in words:
-        score = jaro_winkler_metric(word, candidate)
+        score = jaro_winkler_metric(normalize(word), normalize(candidate))
         if score > best_score:
             best_score = score
             best_candidate = candidate
