@@ -10,3 +10,4 @@
 .userinput.json
 
 .coverage
+*.egg-info
