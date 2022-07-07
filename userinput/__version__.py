@@ -1,2 +1,2 @@
-"""Current version of package userinput"""
-__version__ = "1.0.17"
+"""Current version of package userinput."""
+__version__ = "1.0.18"
