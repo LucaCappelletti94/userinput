@@ -95,7 +95,7 @@ def must_be_in_set(
         lower_word = word.lower()
         for candidate in words:
             if candidate.lower() == lower_word:
-                return word
+                return candidate
         
     if word not in words:
         set_size = min(5, len(words))
