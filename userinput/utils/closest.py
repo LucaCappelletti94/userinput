@@ -1,5 +1,6 @@
 """Utilities to determine which terms are the closer to a given one."""
 from typing import List
+import numpy as np
 from jaro import jaro_winkler_metric
 
 
@@ -21,31 +22,25 @@ def get_k_closest(word: str, words: List[str], k: int) -> List[str]:
     k: int,
         The number of elements to retrieve.
     """
-    top_k = []
     split_word = word.replace("-", " ").replace("_", " ").split(" ")
-    sorted_list = sorted(
-        [
-            (
-                candidate,
-                sum([
-                    jaro_winkler_metric(normalize(w), normalize(c))
-                    for c in candidate.replace("-", " ").replace("_", " ").split(" ")
-                    for w in split_word
-                ])
-            )
-            for candidate in words
-        ],
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    for i, (word, _) in enumerate(sorted_list):
-        if i < k:
-            top_k.append(word)
-        else:
-            break
-
-    return top_k
+    return [
+        word
+        for word, _ in sorted(
+            [
+                (
+                    candidate,
+                    np.mean([
+                        jaro_winkler_metric(normalize(w), normalize(c))
+                        for c in candidate.replace("-", " ").replace("_", " ").split(" ")
+                        for w in split_word
+                    ])
+                )
+                for candidate in words
+            ],
+            key=lambda x: x[1],
+            reverse=True
+        )[:k]
+    ]
 
 
 def closest(word: str, words: List[str]) -> str:
@@ -61,7 +56,7 @@ def closest(word: str, words: List[str]) -> str:
     best_score, best_candidate = 0, None
     split_word = word.replace("-", " ").replace("_", " ").split(" ")
     for candidate in words:
-        score = sum([
+        score = np.mean([
             jaro_winkler_metric(normalize(w), normalize(c))
             for c in candidate.replace("-", " ").replace("_", " ").split(" ")
             for w in split_word
