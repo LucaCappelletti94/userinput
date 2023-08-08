@@ -64,6 +64,7 @@ setup(
         "validators",
         "validate_version_code",
         "validate_email",
+        "environments_utils",
         "ipython",
         "IPy",
         "jaro-winkler"
