@@ -67,7 +67,8 @@ setup(
         "environments_utils",
         "ipython",
         "IPy",
-        "jaro-winkler"
+        "jaro-winkler",
+        "numpy",
     ],
     extras_require=extras,
 )
